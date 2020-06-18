@@ -17,6 +17,7 @@ typedef NSMapTable<NSString *, id<SDWebImageOperation>> SDOperationsDictionary;
 
 @implementation UIView (WebCacheOperation)
 
+/// 存放Operation的一个字典
 - (SDOperationsDictionary *)sd_operationDictionary {
     @synchronized(self) {
         SDOperationsDictionary *operations = objc_getAssociatedObject(self, &loadOperationKey);
@@ -29,6 +30,9 @@ typedef NSMapTable<NSString *, id<SDWebImageOperation>> SDOperationsDictionary;
     }
 }
 
+/// 通过key来获取对应的Operation
+/// @param key key
+///  TODO: 为嘛要用 @synchronized 来修饰 明明是同步
 - (nullable id<SDWebImageOperation>)sd_imageLoadOperationForKey:(nullable NSString *)key  {
     id<SDWebImageOperation> operation;
     if (key) {
@@ -40,6 +44,9 @@ typedef NSMapTable<NSString *, id<SDWebImageOperation>> SDOperationsDictionary;
     return operation;
 }
 
+/// 通过key来添加Operation
+/// @param operation 操作
+/// @param key key
 - (void)sd_setImageLoadOperation:(nullable id<SDWebImageOperation>)operation forKey:(nullable NSString *)key {
     if (key) {
         [self sd_cancelImageLoadOperationWithKey:key];
@@ -52,6 +59,8 @@ typedef NSMapTable<NSString *, id<SDWebImageOperation>> SDOperationsDictionary;
     }
 }
 
+/// 通过key来取消图片的操作并且从map中移除
+/// @param key key
 - (void)sd_cancelImageLoadOperationWithKey:(nullable NSString *)key {
     if (key) {
         // Cancel in progress downloader from queue
@@ -72,6 +81,8 @@ typedef NSMapTable<NSString *, id<SDWebImageOperation>> SDOperationsDictionary;
     }
 }
 
+/// 通过key从map中移除对应的Operation
+/// @param key key
 - (void)sd_removeImageLoadOperationWithKey:(nullable NSString *)key {
     if (key) {
         SDOperationsDictionary *operationDictionary = [self sd_operationDictionary];

@@ -53,6 +53,7 @@ const int64_t SDWebImageProgressUnitCountUnknown = 1LL;
                      setImageBlock:(nullable SDSetImageBlock)setImageBlock
                           progress:(nullable SDImageLoaderProgressBlock)progressBlock
                          completed:(nullable SDInternalCompletionBlock)completedBlock {
+    // context实质上是一个字典 key为String
     if (context) {
         // copy to avoid mutable object
         context = [context copy];

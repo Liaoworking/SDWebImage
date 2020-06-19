@@ -61,6 +61,7 @@ const int64_t SDWebImageProgressUnitCountUnknown = 1LL;
         context = [NSDictionary dictionary];
     }
     NSString *validOperationKey = context[SDWebImageContextSetImageOperationKey];
+    ///  TODO: 这一段没有理解。
     if (!validOperationKey) {
         // pass through the operation key to downstream, which can used for tracing operation or image view class
         validOperationKey = NSStringFromClass([self class]);

@@ -50,19 +50,25 @@ FOUNDATION_EXPORT UIImage * _Nullable SDScaledImageForScaleFactor(CGFloat scale,
 
 /// WebCache options
 typedef NS_OPTIONS(NSUInteger, SDWebImageOptions) {
+//    https://blog.csdn.net/tooooooooo/article/details/49590959
     /**
+     *同常当图片下载失败的时候这个url就被列入黑名单了，不会再尝试
+     *这个选项禁止加入到黑名单
      * By default, when a URL fail to be downloaded, the URL is blacklisted so the library won't keep trying.
      * This flag disable this blacklisting.
      */
     SDWebImageRetryFailed = 1 << 0,
     
     /**
+     *默认是在UI交互时候进行下载，
+     *这个case 用于延迟到滚动减速的时候进行下载
      * By default, image downloads are started during UI interactions, this flags disable this feature,
      * leading to delayed download on UIScrollView deceleration for instance.
      */
     SDWebImageLowPriority = 1 << 1,
     
     /**
+     *这个case支持逐渐下载图片,默认是下载完成后才显示
      * This flag enables progressive download, the image is displayed progressively during download as a browser would do.
      * By default, the image is only displayed once completely downloaded.
      */

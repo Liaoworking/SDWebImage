@@ -46,6 +46,14 @@ const int64_t SDWebImageProgressUnitCountUnknown = 1LL;
     objc_setAssociatedObject(self, @selector(sd_imageProgress), sd_imageProgress, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
+/// SDWebImage核心方法
+/// @param url 图片url
+/// @param placeholder 占位图
+/// @param options cache选项
+/// @param context 上下文
+/// @param setImageBlock 设置图片的回调
+/// @param progressBlock 下载进程
+/// @param completedBlock 完成的回调
 - (void)sd_internalSetImageWithURL:(nullable NSURL *)url
                   placeholderImage:(nullable UIImage *)placeholder
                            options:(SDWebImageOptions)options

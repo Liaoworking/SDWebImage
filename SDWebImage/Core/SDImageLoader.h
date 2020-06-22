@@ -9,7 +9,7 @@
 #import "SDWebImageCompat.h"
 #import "SDWebImageDefine.h"
 #import "SDWebImageOperation.h"
-
+// 加载进度的闭包
 typedef void(^SDImageLoaderProgressBlock)(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL);
 typedef void(^SDImageLoaderCompletedBlock)(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, BOOL finished);
 

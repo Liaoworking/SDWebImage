@@ -53,6 +53,7 @@ typedef NS_OPTIONS(NSUInteger, SDWebImageOptions) {
     /**
      *同常当图片下载失败的时候这个url就被列入黑名单了，不会再尝试
      *这个选项禁止加入到黑名单
+     * 二进制1左移0位  就是1    1 << 1 10  = 2   1<<3 1000 =  8
      * By default, when a URL fail to be downloaded, the URL is blacklisted so the library won't keep trying.
      * This flag disable this blacklisting.
      */

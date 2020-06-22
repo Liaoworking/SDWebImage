@@ -185,7 +185,7 @@ static id<SDImageLoader> _defaultImageLoader;
 
     SDWebImageCombinedOperation *operation = [SDWebImageCombinedOperation new];
     operation.manager = self;
-
+    // 如果这个url了  就 不走了。
     BOOL isFailedUrl = NO;
     if (url) {
         SD_LOCK(self.failedURLsLock);
@@ -642,16 +642,20 @@ static id<SDImageLoader> _defaultImageLoader;
     SDWebImageMutableContext *mutableContext = [SDWebImageMutableContext dictionary];
     
     // Image Transformer from manager
+    // 如果没有transformer 就做下面操作
     if (!context[SDWebImageContextImageTransformer]) {
         id<SDImageTransformer> transformer = self.transformer;
         [mutableContext setValue:transformer forKey:SDWebImageContextImageTransformer];
     }
     // Cache key filter from manager
+    // 没有filter就做下面操作
     if (!context[SDWebImageContextCacheKeyFilter]) {
         id<SDWebImageCacheKeyFilter> cacheKeyFilter = self.cacheKeyFilter;
         [mutableContext setValue:cacheKeyFilter forKey:SDWebImageContextCacheKeyFilter];
     }
     // Cache serializer from manager
+    // TODO: 这是啥意思
+    // 缓存序列化？？
     if (!context[SDWebImageContextCacheSerializer]) {
         id<SDWebImageCacheSerializer> cacheSerializer = self.cacheSerializer;
         [mutableContext setValue:cacheSerializer forKey:SDWebImageContextCacheSerializer];

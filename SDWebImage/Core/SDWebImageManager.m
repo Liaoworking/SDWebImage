@@ -111,6 +111,9 @@ static id<SDImageLoader> _defaultImageLoader;
     return key;
 }
 
+/// 获取缓存的key
+/// @param url url
+/// @param context 参数配置相关
 - (nullable NSString *)cacheKeyForURL:(nullable NSURL *)url context:(nullable SDWebImageContext *)context {
     if (!url) {
         return @"";
@@ -207,6 +210,7 @@ static id<SDImageLoader> _defaultImageLoader;
     // Preprocess the options and context arg to decide the final the result for manager
     SDWebImageOptionsResult *result = [self processedResultForURL:url options:options context:context];
     
+    // 开始读取缓存里面的图片
     // Start the entry to load image from cache
     [self callCacheProcessForOperation:operation url:url options:result.options context:result.context progress:progressBlock completed:completedBlock];
 

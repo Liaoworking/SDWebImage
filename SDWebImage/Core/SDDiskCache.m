@@ -230,6 +230,8 @@ static NSString * const SDDiskCacheExtendedAttributeName = @"com.hackemist.SDDis
     }
 }
 
+/// 通过key获取path key用md5加密取前16位去拼接就是文件名了
+/// @param key key
 - (nullable NSString *)cachePathForKey:(NSString *)key {
     NSParameterAssert(key);
     return [self cachePathForKey:key inPath:self.diskCachePath];

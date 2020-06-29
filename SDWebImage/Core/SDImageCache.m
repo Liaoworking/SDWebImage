@@ -371,6 +371,8 @@
     return image;
 }
 
+/// 通过Key到所有的路径下面去找文件去了
+/// @param key key
 - (nullable NSData *)diskImageDataBySearchingAllPathsForKey:(nullable NSString *)key {
     if (!key) {
         return nil;
@@ -401,6 +403,11 @@
     return [self diskImageForKey:key data:data options:0 context:nil];
 }
 
+/// 图片的data解码过程
+/// @param key key
+/// @param data data description
+/// @param options options description
+/// @param context context description
 - (nullable UIImage *)diskImageForKey:(nullable NSString *)key data:(nullable NSData *)data options:(SDImageCacheOptions)options context:(SDWebImageContext *)context {
     if (data) {
         UIImage *image = SDImageCacheDecodeImageData(data, key, [[self class] imageOptionsFromCacheOptions:options], context);
@@ -448,6 +455,12 @@
     return [self queryCacheOperationForKey:key options:options context:context cacheType:SDImageCacheTypeAll done:doneBlock];
 }
 
+/// 开始正式到memory和disk中去找缓存了
+/// @param key 缓存的key
+/// @param options options description
+/// @param context context description
+/// @param queryCacheType 请求类型  memory 和 disk 的组合
+/// @param doneBlock 完成的回调
 - (nullable NSOperation *)queryCacheOperationForKey:(nullable NSString *)key options:(SDImageCacheOptions)options context:(nullable SDWebImageContext *)context cacheType:(SDImageCacheType)queryCacheType done:(nullable SDImageCacheQueryCompletionBlock)doneBlock {
     if (!key) {
         if (doneBlock) {
@@ -497,7 +510,7 @@
         }
         return nil;
     }
-    
+    // 上面的都是memory的check  下面开始找disk了
     // Second check the disk cache...
     NSOperation *operation = [NSOperation new];
     // Check whether we need to synchronously query disk
@@ -505,6 +518,7 @@
     // 2. in-memory cache miss & diskDataSync
     BOOL shouldQueryDiskSync = ((image && options & SDImageCacheQueryMemoryDataSync) ||
                                 (!image && options & SDImageCacheQueryDiskDataSync));
+    /// TODO: 这个地方的用法有点意思
     void(^queryDiskBlock)(void) =  ^{
         if (operation.isCancelled) {
             if (doneBlock) {
@@ -542,7 +556,7 @@
             }
         }
     };
-    
+    // 叼叼叼 把线程和block 完美结合 学习到了！
     // Query in ioQueue to keep IO-safe
     if (shouldQueryDiskSync) {
         dispatch_sync(self.ioQueue, queryDiskBlock);
@@ -727,7 +741,7 @@
 - (id<SDWebImageOperation>)queryImageForKey:(NSString *)key options:(SDWebImageOptions)options context:(nullable SDWebImageContext *)context completion:(nullable SDImageCacheQueryCompletionBlock)completionBlock {
     return [self queryImageForKey:key options:options context:context cacheType:SDImageCacheTypeAll completion:completionBlock];
 }
-
+/// TODO: 问问耀昌这个是干嘛的
 - (id<SDWebImageOperation>)queryImageForKey:(NSString *)key options:(SDWebImageOptions)options context:(nullable SDWebImageContext *)context cacheType:(SDImageCacheType)cacheType completion:(nullable SDImageCacheQueryCompletionBlock)completionBlock {
     SDImageCacheOptions cacheOptions = 0;
     if (options & SDWebImageQueryMemoryData) cacheOptions |= SDImageCacheQueryMemoryData;

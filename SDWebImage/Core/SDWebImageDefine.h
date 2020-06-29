@@ -141,7 +141,7 @@ typedef NS_OPTIONS(NSUInteger, SDWebImageOptions) {
     
     /**
      * 一般情况下图片都会被decode成原始尺寸
-     * 这个选项会缩小图片来兼容第内容超的设备
+     * 这个选项会缩小图片来兼容低内存的设备
      * 请使用SDImageCoderHelper.defaultScaleDownLimitBytes`来控制内存限制 默认是60mb
      * 会使用到 context option `.imageThumbnailPixelSize`来控制
      * 这个也会影响到渐进式下载图片和动图

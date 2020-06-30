@@ -188,6 +188,12 @@ static void * SDWebImageDownloaderContext = &SDWebImageDownloaderContext;
     return [self downloadImageWithURL:url options:options context:nil progress:progressBlock completed:completedBlock];
 }
 
+/// 图片下载 网络请求部分
+/// @param url url description
+/// @param options options description
+/// @param context context description
+/// @param progressBlock progressBlock description
+/// @param completedBlock completedBlock description
 - (nullable SDWebImageDownloadToken *)downloadImageWithURL:(nullable NSURL *)url
                                                    options:(SDWebImageDownloaderOptions)options
                                                    context:(nullable SDWebImageContext *)context
@@ -201,11 +207,12 @@ static void * SDWebImageDownloaderContext = &SDWebImageDownloaderContext;
         }
         return nil;
     }
-    
+    // 网络请求前先加锁
     SD_LOCK(self.operationsLock);
     id downloadOperationCancelToken;
     NSOperation<SDWebImageDownloaderOperation> *operation = [self.URLOperations objectForKey:url];
     // There is a case that the operation may be marked as finished or cancelled, but not been removed from `self.URLOperations`.
+    // 没有线程处理或者结束了或者取消了 就新创建一个
     if (!operation || operation.isFinished || operation.isCancelled) {
         operation = [self createDownloaderOperationWithUrl:url options:options context:context];
         if (!operation) {
@@ -258,6 +265,10 @@ static void * SDWebImageDownloaderContext = &SDWebImageDownloaderContext;
     return token;
 }
 
+/// 根据url options context 来创建一个线程来下载图片
+/// @param url url
+/// @param options options
+/// @param context context description
 - (nullable NSOperation<SDWebImageDownloaderOperation> *)createDownloaderOperationWithUrl:(nonnull NSURL *)url
                                                                                   options:(SDWebImageDownloaderOptions)options
                                                                                   context:(nullable SDWebImageContext *)context {
@@ -568,6 +579,12 @@ didReceiveResponse:(NSURLResponse *)response
     return YES;
 }
 
+/// 开始请求图片下载 下载的缓存和参数的配置
+/// @param url url
+/// @param options options description
+/// @param context context description
+/// @param progressBlock 进度的block
+/// @param completedBlock 完成的回调
 - (id<SDWebImageOperation>)requestImageWithURL:(NSURL *)url options:(SDWebImageOptions)options context:(SDWebImageContext *)context progress:(SDImageLoaderProgressBlock)progressBlock completed:(SDImageLoaderCompletedBlock)completedBlock {
     UIImage *cachedImage = context[SDWebImageContextLoaderCachedImage];
     

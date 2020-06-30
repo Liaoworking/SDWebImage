@@ -359,7 +359,7 @@ static id<SDImageLoader> _defaultImageLoader;
         [self callDownloadProcessForOperation:operation url:url options:options context:context cachedImage:nil cachedData:nil cacheType:originalQueryCacheType progress:progressBlock completed:completedBlock];
     }
 }
-
+// 下载图片总的方法 （配置loader + 检查是否可下载 + 下载）
 // Download process
 - (void)callDownloadProcessForOperation:(nonnull SDWebImageCombinedOperation *)operation
                                     url:(nonnull NSURL *)url
@@ -372,6 +372,7 @@ static id<SDImageLoader> _defaultImageLoader;
                               completed:(nullable SDInternalCompletionBlock)completedBlock {
     // Grab the image loader to use
     id<SDImageLoader> imageLoader;
+    // 给loader就用loader 没有就用自己的
     if ([context[SDWebImageContextImageLoader] conformsToProtocol:@protocol(SDImageLoader)]) {
         imageLoader = context[SDWebImageContextImageLoader];
     } else {
@@ -379,6 +380,7 @@ static id<SDImageLoader> _defaultImageLoader;
     }
     
     // Check whether we should download image from network
+    /// TODO: &=这种语法都不太懂的
     BOOL shouldDownload = !SD_OPTIONS_CONTAINS(options, SDWebImageFromCacheOnly);
     shouldDownload &= (!cachedImage || options & SDWebImageRefreshCached);
     shouldDownload &= (![self.delegate respondsToSelector:@selector(imageManager:shouldDownloadImageForURL:)] || [self.delegate imageManager:self shouldDownloadImageForURL:url]);

@@ -156,7 +156,7 @@ static NSString * kSDCGImageDestinationRequestedFileSize = @"kCGImageDestination
     CFRelease(cfFrameProperties);
     return frameDuration;
 }
-
+/// TODO: 真正意义上的图片解码生成image
 + (UIImage *)createFrameAtIndex:(NSUInteger)index source:(CGImageSourceRef)source scale:(CGFloat)scale preserveAspectRatio:(BOOL)preserveAspectRatio thumbnailSize:(CGSize)thumbnailSize options:(NSDictionary *)options {
     // Some options need to pass to `CGImageSourceCopyPropertiesAtIndex` before `CGImageSourceCreateImageAtIndex`, or ImageIO will ignore them because they parse once :)
     // Parse the image properties

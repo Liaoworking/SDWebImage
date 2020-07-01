@@ -121,14 +121,7 @@
                           context:@{SDWebImageContextImageThumbnailPixelSize : @(CGSizeMake(180, 120))}
                          progress:nil
                         completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
-        SDWebImageCombinedOperation *operation = [imageView sd_imageLoadOperationForKey:imageView.sd_latestOperationKey];
-        SDWebImageDownloadToken *token = operation.loaderOperation;
-        if (@available(iOS 10.0, *)) {
-            NSURLSessionTaskMetrics *metrics = token.metrics;
-            if (metrics) {
-                printf("Metrics: %s download in (%f) seconds\n", [imageURL.absoluteString cStringUsingEncoding:NSUTF8StringEncoding], metrics.taskInterval.duration);
-            }
-        }
+
     }];
     return cell;
 }

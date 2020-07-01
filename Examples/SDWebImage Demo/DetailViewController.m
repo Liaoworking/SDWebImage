@@ -18,14 +18,14 @@
 @implementation DetailViewController
 
 - (void)configureView {
-    if (!self.imageView.sd_imageIndicator) {
-        self.imageView.sd_imageIndicator = SDWebImageProgressIndicator.defaultIndicator;
-    }
-    [self.imageView sd_setImageWithURL:self.imageURL
-                      placeholderImage:nil
-                               options:SDWebImageProgressiveLoad];
-    self.imageView.shouldCustomLoopCount = YES;
-    self.imageView.animationRepeatCount = 0;
+//    if (!self.imageView.sd_imageIndicator) {
+//        self.imageView.sd_imageIndicator = SDWebImageProgressIndicator.defaultIndicator;
+//    }
+//    [self.imageView sd_setImageWithURL:self.imageURL
+//                      placeholderImage:nil
+//                               options:SDWebImageProgressiveLoad];
+//    self.imageView.shouldCustomLoopCount = YES;
+//    self.imageView.animationRepeatCount = 0;
 }
 
 - (void)viewDidLoad {
@@ -35,6 +35,10 @@
                                                                             style:UIBarButtonItemStylePlain
                                                                            target:self
                                                                            action:@selector(toggleAnimation:)];
+    [self.imageView sd_setImageWithURL:self.imageURL completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+        printf("ok");
+    }];
+
 }
 
 - (void)toggleAnimation:(UIResponder *)sender {

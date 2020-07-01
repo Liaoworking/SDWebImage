@@ -27,7 +27,7 @@ FOUNDATION_STATIC_INLINE NSUInteger SDMemoryCacheCostForImage(UIImage *image) {
 }
 
 @implementation UIImage (MemoryCacheCost)
-
+/// 获取图片的内测占用
 - (NSUInteger)sd_memoryCost {
     NSNumber *value = objc_getAssociatedObject(self, @selector(sd_memoryCost));
     NSUInteger memoryCost;

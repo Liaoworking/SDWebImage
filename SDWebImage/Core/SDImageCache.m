@@ -755,7 +755,7 @@
     
     return [self queryCacheOperationForKey:key options:cacheOptions context:context cacheType:cacheType done:completionBlock];
 }
-
+// 存储图片的多类型匹配入口 通过cacheType把图片存储到内测 disk 或者 都存储
 - (void)storeImage:(UIImage *)image imageData:(NSData *)imageData forKey:(nullable NSString *)key cacheType:(SDImageCacheType)cacheType completion:(nullable SDWebImageNoParamsBlock)completionBlock {
     switch (cacheType) {
         case SDImageCacheTypeNone: {

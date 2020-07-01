@@ -74,6 +74,11 @@ typedef NSMutableDictionary<NSString *, id> SDCallbacksDictionary;
     return [self initWithRequest:request inSession:session options:options context:nil];
 }
 
+/// 根据信息创建一个Operator
+/// @param request request description
+/// @param session session description
+/// @param options options description
+/// @param context context description
 - (nonnull instancetype)initWithRequest:(nullable NSURLRequest *)request
                               inSession:(nullable NSURLSession *)session
                                 options:(SDWebImageDownloaderOptions)options
@@ -97,7 +102,7 @@ typedef NSMutableDictionary<NSString *, id> SDCallbacksDictionary;
     }
     return self;
 }
-
+// 下载回调存放到回调数组里面 返回的callback是一个可变字典["progress":progressBlock,"completed":completedBlock]
 - (nullable id)addHandlersForProgress:(nullable SDWebImageDownloaderProgressBlock)progressBlock
                             completed:(nullable SDWebImageDownloaderCompletedBlock)completedBlock {
     SDCallbacksDictionary *callbacks = [NSMutableDictionary new];

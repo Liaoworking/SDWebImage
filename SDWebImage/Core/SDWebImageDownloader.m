@@ -188,7 +188,7 @@ static void * SDWebImageDownloaderContext = &SDWebImageDownloaderContext;
     return [self downloadImageWithURL:url options:options context:nil progress:progressBlock completed:completedBlock];
 }
 
-/// 图片下载 网络请求部分
+/// 图片下载 网络请求部分  返回值SDWebImageDownloadToken是一个包含网络请求相关参数的对象
 /// @param url url description
 /// @param options options description
 /// @param context context description
@@ -207,8 +207,9 @@ static void * SDWebImageDownloaderContext = &SDWebImageDownloaderContext;
         }
         return nil;
     }
-    // 网络请求前先加锁
+    // 配置Operation前请求前先加锁
     SD_LOCK(self.operationsLock);
+    // 是一个存放下载进度的字典
     id downloadOperationCancelToken;
     NSOperation<SDWebImageDownloaderOperation> *operation = [self.URLOperations objectForKey:url];
     // There is a case that the operation may be marked as finished or cancelled, but not been removed from `self.URLOperations`.
@@ -265,7 +266,7 @@ static void * SDWebImageDownloaderContext = &SDWebImageDownloaderContext;
     return token;
 }
 
-/// 根据url options context 来创建一个线程来下载图片
+/// 根据url options context 来创建一个线程来下载图片  主要是创建一个Operator
 /// @param url url
 /// @param options options
 /// @param context context description
@@ -345,7 +346,7 @@ static void * SDWebImageDownloaderContext = &SDWebImageDownloaderContext;
         operationClass = [SDWebImageDownloaderOperation class];
     }
     NSOperation<SDWebImageDownloaderOperation> *operation = [[operationClass alloc] initWithRequest:request inSession:self.session options:options context:context];
-    
+    // 如果需要信任证书之列的
     if ([operation respondsToSelector:@selector(setCredential:)]) {
         if (self.config.urlCredential) {
             operation.credential = self.config.urlCredential;
@@ -353,7 +354,7 @@ static void * SDWebImageDownloaderContext = &SDWebImageDownloaderContext;
             operation.credential = [NSURLCredential credentialWithUser:self.config.username password:self.config.password persistence:NSURLCredentialPersistenceForSession];
         }
     }
-        
+    /// TODO: 进程从0到1的最佳写法
     if ([operation respondsToSelector:@selector(setMinimumProgressInterval:)]) {
         operation.minimumProgressInterval = MIN(MAX(self.config.minimumProgressInterval, 0), 1);
     }
@@ -447,7 +448,7 @@ didReceiveResponse:(NSURLResponse *)response
         }
     }
 }
-
+// Session 的下载回调
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data {
 
     // Identify the operation that runs this task and pass it the delegate method

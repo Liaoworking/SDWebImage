@@ -359,7 +359,7 @@ static id<SDImageLoader> _defaultImageLoader;
         [self callDownloadProcessForOperation:operation url:url options:options context:context cachedImage:nil cachedData:nil cacheType:originalQueryCacheType progress:progressBlock completed:completedBlock];
     }
 }
-// 下载图片总的方法 （配置loader + 检查是否可下载 + 下载）
+// 下载图片总的方法 （配置loader + 检查是否可下载 + 下载chu）
 // Download process
 - (void)callDownloadProcessForOperation:(nonnull SDWebImageCombinedOperation *)operation
                                     url:(nonnull NSURL *)url
@@ -570,7 +570,7 @@ static id<SDImageLoader> _defaultImageLoader;
     [self.runningOperations removeObject:operation];
     SD_UNLOCK(self.runningOperationsLock);
 }
-
+// 存储图片到本地  主要是配置一些imageCache的信息
 - (void)storeImage:(nullable UIImage *)image
          imageData:(nullable NSData *)data
             forKey:(nullable NSString *)key
